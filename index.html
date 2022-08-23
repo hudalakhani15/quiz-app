@@ -18,7 +18,7 @@
                 <h1 id="logo">Quiz app</h1>
                 <label><i class="fas fa-user"></i><input type="text" placeholder="Name" id="username"></label>
                 <label><i class="fas fa-user"></i><input type="email" required placeholder="Email" id="email"></label>
-                <button onclick="loginuser()">Log In</button>
+                <button id="loginbtn">Log In</button>
             </div>
         </div>
     </div>
@@ -45,11 +45,11 @@
             <li class="options"></li>
             <span id="ques-num"></span>
     <button class="btn" id="next-btn" onclick="changeQuestion()">next</button>
-            <button class="btn hide" id="sub-btn" onclick="submitBtn()">submit quiz</button>
+            <button class="btn hide" id="sub-btn" >submit quiz</button>
 
         </div>
         <div class="btn-cont">
-            <button class="btn" id="start-btn" onclick="startquiz(this)">Start Quiz?</button>
+            <button class="btn" id="start-btn">Start Quiz?</button>
 
         </div>
     </div>
@@ -70,6 +70,6 @@
         </div>
        </div>
     </div>
-    <script src="app.js"></script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>

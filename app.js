@@ -1,3 +1,29 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-analytics.js";
+import { getDatabase, ref, set } from "firebase/database";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCk5YRGGztjg7tJKNU2uyzjMATUu5QfjMk",
+  authDomain: "projects-baa58.firebaseapp.com",
+  databaseURL: "https://projects-baa58-default-rtdb.firebaseio.com",
+  projectId: "projects-baa58",
+  storageBucket: "projects-baa58.appspot.com",
+  messagingSenderId: "443872087846",
+  appId: "1:443872087846:web:933389fe4854bed7ce3be7",
+  measurementId: "G-7NSDRW6P2K"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
+const db = getDatabase();
+var loginbtn = document.getElementById("loginbtn");
 var startbtn = document.getElementById("start-btn");
 var quizQues = document.getElementById("quizQues");
 var question = document.getElementById("ques");
@@ -6,6 +32,43 @@ var next = document.getElementById("next-btn");
 var submit = document.getElementById("sub-btn")
 var user = {}
 var timeInterval;
+
+loginbtn.addEventListener("click" ,
+      () => {
+    
+        if (userName.value === "" || userEmail.value === "") {
+            alert("Please fill the input feilds");
+        } else if (!validateEmail(userEmail.value)) {
+            alert('enter a valid email')
+        } else {
+            form.classList.add("hide");
+            cardCont[0].classList.remove("hide");
+            name_div.innerHTML = `Name: ${userName.value}`
+        }
+        set(ref(db, 'login/' + loginId), {
+            //   username: name,
+            //   email: email,
+            
+            })
+            
+.then(() => {
+    // Data saved successfully!
+  })
+  .catch((error) => {
+    // The write failed...
+  });
+    }
+  
+    
+
+ 
+)
+function validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(email).toLowerCase());
+  }
+  
+
 //storing questions//
 var quizQuesArr = [
     {
@@ -66,12 +129,38 @@ var quizQuesArr = [
 ]
 //setting attribute in options//
 for (var i = 0; i < option.length; i++) {
-    option[i].setAttribute('onclick', 'select(this)');
+    option[i].addEventListener('click', function (li) {
+        if (li.innerHTML == quizQuesArr[counter].ans) {
+            li.classList.add("correct")
+            score = score + 10
+            correct++
+            // console.log("chassds")  
+        } else {
+            li.classList.add("wrong")
+            wrong++
+        }
+        for (let i = 0; i < 4; i++) {
+            option[i].classList.add("disabled")
+    
+        }
+        next.classList.remove("hide");
+        counter++
+    
+    
+        if (counter == 5) {
+            next.classList.add("hide");
+            submit.classList.remove("hide")
+    
+    
+    
+        }
+    });
+    
     
 }
 ///start quiz function///
 
-function startquiz(btn) {
+startbtn.addEventListener("click", function(btn) {
     alert("you have only one minute to complete the quiz");
     quizQues.classList.remove("hide")
     startbtn.classList.add("hide");
@@ -101,8 +190,9 @@ function startquiz(btn) {
         minutesContainer.innerHTML = String(minutes).padStart(2, '0');
     }, 1000)
     
-}
-/// question change function/
+})
+
+// question change function/
 var quesNum = document.getElementById("ques-num");
 
 var count = 0
@@ -136,24 +226,6 @@ var userEmail = document.getElementById("email")
 var cardCont = document.getElementsByClassName("card-cont")
 var name_div = document.getElementById("name");
 var form = document.getElementById("main")
-const loginuser = () => {
-    
-    if (userName.value === "" || userEmail.value === "") {
-        alert("Please fill the input feilds");
-    } else if (!validateEmail(userEmail.value)) {
-        alert('enter a valid email')
-    } else {
-        form.classList.add("hide");
-        cardCont[0].classList.remove("hide");
-        name_div.innerHTML = `Name: ${userName.value}`
-    }
-}
-
-
-function validateEmail(email) {
-  var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-}
 
 
 
@@ -166,32 +238,7 @@ var correct = 0
 
 
 
-function select(li) {
-    if (li.innerHTML == quizQuesArr[counter].ans) {
-        li.classList.add("correct")
-        score = score + 10
-        correct++
-        // console.log("chassds")  
-    } else {
-        li.classList.add("wrong")
-        wrong++
-    }
-    for (let i = 0; i < 4; i++) {
-        option[i].classList.add("disabled")
 
-    }
-    next.classList.remove("hide");
-    counter++
-
-
-    if (counter == 5) {
-        next.classList.add("hide");
-        submit.classList.remove("hide")
-
-
-
-    }
-}
 var seconds = 0
 var minutes = 0
 var secondsContainer = document.getElementById("seconds");
@@ -207,7 +254,7 @@ var wro_btn = document.getElementById("wrong");
 var tot_score = document.getElementById("Total");
 var resultDiv = document.getElementById("resultDiv")
 var resultName = document.getElementById("sec-name")
-function submitBtn() {
+submit.addEventListener("click" , function(e) {
     cardCont[0].classList.add("hide");
     resultDiv.classList.remove("hide");
     resultName.innerHTML = `Name:${userName.value}`
@@ -221,4 +268,4 @@ function submitBtn() {
     wro_btn.innerHTML = wrong
     tot_score.innerHTML = score
     clearInterval(timeInterval);
-}
+})
