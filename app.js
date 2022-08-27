@@ -1,26 +1,25 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.3/firebase-analytics.js";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase ,ref, set} from "https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCk5YRGGztjg7tJKNU2uyzjMATUu5QfjMk",
-  authDomain: "projects-baa58.firebaseapp.com",
-  databaseURL: "https://projects-baa58-default-rtdb.firebaseio.com",
-  projectId: "projects-baa58",
-  storageBucket: "projects-baa58.appspot.com",
-  messagingSenderId: "443872087846",
-  appId: "1:443872087846:web:933389fe4854bed7ce3be7",
-  measurementId: "G-7NSDRW6P2K"
+  apiKey: "AIzaSyADVSsqZrlxKoiXaUUCJ5POppmqj0RZ3yo",
+  authDomain: "quiz-db-ffcef.firebaseapp.com",
+  projectId: "quiz-db-ffcef",
+  storageBucket: "quiz-db-ffcef.appspot.com",
+  messagingSenderId: "90257324727",
+  appId: "1:90257324727:web:188afde97839eb935cab32",
+  measurementId: "G-D9CH6KDCLB"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const database = getDatabase(app);
 
 const db = getDatabase();
 var loginbtn = document.getElementById("loginbtn");
@@ -45,7 +44,7 @@ loginbtn.addEventListener("click" ,
             cardCont[0].classList.remove("hide");
             name_div.innerHTML = `Name: ${userName.value}`
         }
-        set(ref(db, 'login/' + loginId), {
+        set(ref(db, 'login/'  ), {
             //   username: name,
             //   email: email,
             
@@ -59,8 +58,7 @@ loginbtn.addEventListener("click" ,
   });
     }
   
-    
-
+  
  
 )
 function validateEmail(email) {
@@ -197,6 +195,7 @@ var quesNum = document.getElementById("ques-num");
 
 var count = 0
 var quesCount = 1
+
 function changeQuestion() {
     if (!(count === quizQuesArr.length)) {
         question.innerHTML = quizQuesArr[count].ques
